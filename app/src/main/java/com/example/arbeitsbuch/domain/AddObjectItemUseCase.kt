@@ -1,9 +1,9 @@
 package com.example.arbeitsbuch.domain
 
-class AddObjectItemUseCase {
+class AddObjectItemUseCase(private val objectListRepository: ObjectListRepository) {
 
     fun addObjectItem(objectItem: ObjectItem){
-
+        objectListRepository.addObjectItem(objectItem)
     }
 
 }
