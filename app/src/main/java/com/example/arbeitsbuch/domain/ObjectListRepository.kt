@@ -1,5 +1,7 @@
 package com.example.arbeitsbuch.domain
 
+import java.util.*
+
 interface ObjectListRepository {
 
     fun addObjectItem(objectItem: ObjectItem)
