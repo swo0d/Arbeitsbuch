@@ -1,8 +1,8 @@
 package com.example.arbeitsbuch.domain
 
-class GetObjectListUseCase {
+class GetObjectListUseCase(private val objectListRepository: ObjectListRepository) {
 
     fun getObjectList() : List<ObjectItem>{
-        TODO()
+        return objectListRepository.getObjectList()
     }
 }
