@@ -1,5 +1,6 @@
 package com.example.arbeitsbuch.domain
 
+import androidx.lifecycle.LiveData
 import java.util.*
 
 interface ObjectListRepository {
@@ -12,5 +13,5 @@ interface ObjectListRepository {
 
     fun getObjectItem(objectItemId: Int) : ObjectItem
 
-    fun getObjectList(): List<ObjectItem>
+    fun getObjectList(): LiveData<List<ObjectItem>>
 }
