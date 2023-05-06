@@ -2,11 +2,18 @@ package com.example.arbeitsbuch.data
 
 import com.example.arbeitsbuch.domain.ObjectItem
 import com.example.arbeitsbuch.domain.ObjectListRepository
+import java.util.*
 
-class ObjectListRepositoryImpl : ObjectListRepository {
+object ObjectListRepositoryImpl : ObjectListRepository {
 
     private val objectList = mutableListOf<ObjectItem>()
     private var autoIncrementId = 0
+    init {
+        for (i in 0 until 10) {
+            val item = ObjectItem("Name = Object-$i", date= Date(), true, false, i )
+            addObjectItem(item)
+        }
+    }
 
     override fun addObjectItem(objectItem: ObjectItem) {
         if (objectItem.id == ObjectItem.UNDEFINED_ID) {
