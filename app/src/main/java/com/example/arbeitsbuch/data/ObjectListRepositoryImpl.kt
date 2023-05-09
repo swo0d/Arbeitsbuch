@@ -1,12 +1,16 @@
 package com.example.arbeitsbuch.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.arbeitsbuch.domain.ObjectItem
 import com.example.arbeitsbuch.domain.ObjectListRepository
 import java.util.*
 
 object ObjectListRepositoryImpl : ObjectListRepository {
 
-    private val objectList = mutableListOf<ObjectItem>()
+    private val objectListLD = MutableLiveData<List<ObjectItem>>()
+    private val objectList = sortedSetOf<ObjectItem>({o1, o2 -> o1.id.compareTo(o2.id)})
+
     private var autoIncrementId = 0
     init {
         for (i in 0 until 10) {
@@ -20,11 +24,12 @@ object ObjectListRepositoryImpl : ObjectListRepository {
             objectItem.id = autoIncrementId++
         }
         objectList.add(objectItem)
-
+        updateObjectList()
     }
 
     override fun deleteObjectItem(objectItem: ObjectItem) {
         objectList.remove(objectItem)
+        updateObjectList()
     }
 
     override fun editObjectItem(objectItem: ObjectItem) {
@@ -41,8 +46,11 @@ object ObjectListRepositoryImpl : ObjectListRepository {
 
     }
 
-    override fun getObjectList(): List<ObjectItem> {
-        return objectList.toList()
+    override fun getObjectList(): LiveData<List<ObjectItem>> {
+        return objectListLD
     }
-
+    // update objectList
+    fun updateObjectList(){
+        objectListLD.value = objectList.toList()
+    }
 }

@@ -17,28 +17,23 @@ class MainViewModel : ViewModel() {
     private val deleteObjectItemUseCase = DeleteObjectItemUseCase(repository)
     private val editObjectItemUseCase = EditObjectItemUseCase(repository)
 
-    val objectList = MutableLiveData<List<ObjectItem>>()
+    val objectList = getObjectListUseCase.getObjectList()
 
-    fun getObjectList() {
-        val list = getObjectListUseCase.getObjectList()
-        objectList.value = list
-    }
     // delete object
     fun deleteObjectItem(objectItem: ObjectItem){
         deleteObjectItemUseCase.deleteObject(objectItem)
-        getObjectList()
     }
     // edit object enabled
     fun changeEnableState(objectItem: ObjectItem){
         val newItem = objectItem.copy(enabled = !objectItem.enabled)
         editObjectItemUseCase.editObjectItem(newItem)
-        getObjectList()
+
+
     }
     // edit object solved
     fun changeSolvedState(objectItem: ObjectItem){
         val newItem = objectItem.copy(isSolved = !objectItem.isSolved)
         editObjectItemUseCase.editObjectItem(newItem)
-        getObjectList()
 
     }
 
