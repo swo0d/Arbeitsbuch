@@ -7,26 +7,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arbeitsbuch.R
 import com.example.arbeitsbuch.domain.ObjectItem
 
-class ObjectListAdapter : RecyclerView.Adapter<ObjectListAdapter.ObjectItemViewHolder>() {
+//class ObjectListAdapter : RecyclerView.Adapter<ObjectListAdapter.ObjectItemViewHolder>() {
+class ObjectListAdapter :
+    ListAdapter<ObjectItem, ObjectListAdapter.ObjectItemViewHolder>(ObjectItemDiffCallback()) {
     var count = 0
-    var objectList = listOf<ObjectItem>()
-        set(value) {
-            val callback = ObjectListDiffCallback(objectList, value)
-            val diffResult = DiffUtil.calculateDiff(callback)
-            diffResult.dispatchUpdatesTo(this)
-            field = value
-           // notifyDataSetChanged()
-        }
 
-        var onObjectItemLongClickListener: ((ObjectItem) -> Unit)? = null
-        var onObjectItemClickListener: ((ObjectItem) -> Unit)? = null
+
+    var onObjectItemLongClickListener: ((ObjectItem) -> Unit)? = null
+    var onObjectItemClickListener: ((ObjectItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectItemViewHolder {
-       // Log.d("ObjectListAdapter","onCreateViewHolder, count: ${++count}")
+        // Log.d("ObjectListAdapter","onCreateViewHolder, count: ${++count}")
         val layout = when (viewType) {
             VIEW_TYPE_ENABLED -> R.layout.item_object_list_enabled
             VIEW_TYPE_DISABLED -> R.layout.item_object_list_disabled
@@ -37,13 +33,9 @@ class ObjectListAdapter : RecyclerView.Adapter<ObjectListAdapter.ObjectItemViewH
         return ObjectItemViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return objectList.size
-    }
-
     override fun onBindViewHolder(viewHolder: ObjectItemViewHolder, position: Int) {
-        Log.d("ObjectListAdapter", "onBindViewHolder, count: ${++count}" )
-        val objectItem = objectList[position]
+        Log.d("ObjectListAdapter", "onBindViewHolder, count: ${++count}")
+        val objectItem = getItem(position)
         viewHolder.view.setOnLongClickListener {
             onObjectItemLongClickListener?.invoke(objectItem)
             true
@@ -59,19 +51,20 @@ class ObjectListAdapter : RecyclerView.Adapter<ObjectListAdapter.ObjectItemViewH
     override fun onViewRecycled(viewHolder: ObjectItemViewHolder) {
         viewHolder.tvName.text = ""
         viewHolder.tvDate.text = ""
-        viewHolder.tvName.setTextColor(ContextCompat
-            .getColor(viewHolder.view.context, android.R.color.white))
+        viewHolder.tvName.setTextColor(
+            ContextCompat
+                .getColor(viewHolder.view.context, android.R.color.white)
+        )
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = objectList[position]
-        return  if (item.enabled) {
+        val item = getItem(position)
+        return if (item.enabled) {
             VIEW_TYPE_ENABLED
         } else {
             VIEW_TYPE_DISABLED
         }
     }
-
 
     class ObjectItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvName = view.findViewById<TextView>(R.id.list_item_object_name)
