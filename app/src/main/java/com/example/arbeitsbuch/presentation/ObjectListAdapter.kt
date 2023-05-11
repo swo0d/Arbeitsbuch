@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arbeitsbuch.R
 import com.example.arbeitsbuch.domain.ObjectItem
@@ -14,8 +15,11 @@ class ObjectListAdapter : RecyclerView.Adapter<ObjectListAdapter.ObjectItemViewH
     var count = 0
     var objectList = listOf<ObjectItem>()
         set(value) {
+            val callback = ObjectListDiffCallback(objectList, value)
+            val diffResult = DiffUtil.calculateDiff(callback)
+            diffResult.dispatchUpdatesTo(this)
             field = value
-            notifyDataSetChanged()
+           // notifyDataSetChanged()
         }
 
         var onObjectItemLongClickListener: ((ObjectItem) -> Unit)? = null
