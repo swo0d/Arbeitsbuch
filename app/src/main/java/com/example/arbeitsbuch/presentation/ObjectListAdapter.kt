@@ -2,19 +2,15 @@ package com.example.arbeitsbuch.presentation
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.example.arbeitsbuch.R
 import com.example.arbeitsbuch.domain.ObjectItem
 
 //class ObjectListAdapter : RecyclerView.Adapter<ObjectListAdapter.ObjectItemViewHolder>() {
 class ObjectListAdapter :
-    ListAdapter<ObjectItem, ObjectListAdapter.ObjectItemViewHolder>(ObjectItemDiffCallback()) {
+    ListAdapter<ObjectItem, ObjectItemViewHolder>(ObjectItemDiffCallback()) {
     var count = 0
 
 
@@ -65,12 +61,6 @@ class ObjectListAdapter :
             VIEW_TYPE_DISABLED
         }
     }
-
-    class ObjectItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvName = view.findViewById<TextView>(R.id.list_item_object_name)
-        val tvDate = view.findViewById<TextView>(R.id.list_item_object_date)
-    }
-
     companion object {
         const val VIEW_TYPE_ENABLED = 100
         const val VIEW_TYPE_DISABLED = 101
