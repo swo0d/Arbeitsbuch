@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.arbeitsbuch.domain.ObjectItem
 import com.example.arbeitsbuch.domain.ObjectListRepository
 import java.util.*
+import kotlin.random.Random
 
 object ObjectListRepositoryImpl : ObjectListRepository {
 
@@ -13,9 +14,9 @@ object ObjectListRepositoryImpl : ObjectListRepository {
 
     private var autoIncrementId = 0
     init {
-        for (i in 0 until 10) {
-            val item = ObjectItem("Name = Object-$i", date= Date(), true, false, i )
-            addObjectItem(item)
+        for (i in 0 until 1000) {
+            val item = ObjectItem("Name = Object-$i", date= Date(), Random.nextBoolean(), false, i )
+                addObjectItem(item)
         }
     }
 
