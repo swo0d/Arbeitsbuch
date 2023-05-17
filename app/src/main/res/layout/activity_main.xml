@@ -22,12 +22,13 @@
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_add_new_object"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:contentDescription="@string/add_new_object_item"
+        android:contentDescription="@string/add_new_object"
         android:focusable="true"
         app:backgroundTint="#09F412"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,17 +1,13 @@
 package com.example.arbeitsbuch.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.RecoverySystem
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arbeitsbuch.R
-import com.example.arbeitsbuch.domain.ObjectItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +22,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.objectList.observe(this) {
             objectListAdapter.submitList(it)
         }
+        val buttonAddObject = findViewById<FloatingActionButton>(R.id.button_add_new_object)
+        buttonAddObject.setOnClickListener {
+            val intent = ObjectItemActivity.newIntentAddObject(this)
+            startActivity(intent)
+        }
+
     }
+
 
     private fun setupRecyclerView() {
         val rvObjectList = findViewById<RecyclerView>(R.id.rv_object_list)
@@ -72,6 +75,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         objectListAdapter.onObjectItemClickListener = {
+            val intent = ObjectItemActivity.newIntentEditObject(this)
+            startActivity(intent)
             Log.d("MainActivity", it.toString())
         }
     }

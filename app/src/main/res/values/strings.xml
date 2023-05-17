@@ -6,12 +6,12 @@
     <string name="object_photo_no_image_description">No Image</string>
     <string name="object_photo_button_description">Photo</string>
     <string name="object_name">Object Name</string>
-    <string name="obeckt_title_hint">name_hint</string>
+    <string name="object_title_hint">Name</string>
     <string name="at_sign">\@</string>
     <string name="object_report_text">Report text</string>
     <string name="object_report_call">Report_call</string>
     <string name="button_object_date">object_date</string>
     <string name="button_object_time">object_time_button</string>
-    <string name="add_new_object_item">Add new object item</string>
+    <string name="add_new_object">Add new object</string>
 
 </resources>

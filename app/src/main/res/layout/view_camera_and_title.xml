@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
@@ -41,14 +42,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:labelFor="@+id/object_name"
-            android:text="@string/object_name" />
+            android:text="@string/object_name"
+            />
 
         <EditText
             android:id="@+id/object_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:hint="@string/obeckt_title_hint" />
+            android:hint="@string/object_title_hint"
+            android:inputType="textCapWords"/>
     </LinearLayout>
 
 </LinearLayout>
