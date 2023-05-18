@@ -40,11 +40,10 @@ class ObjectItemViewModel : ViewModel() {
         val name = parseName(inputName)
         val fieldValid = validateInput(name)
         if (fieldValid) {
-            val objectItem = ObjectItem(name, Date(), true, false)
+            val objectItem = ObjectItem(name)
             addObjectItemUseCase.addObjectItem(objectItem)
             finishWork()
         }
-
     }
 
     fun editObjectItem(inputName: String?) {

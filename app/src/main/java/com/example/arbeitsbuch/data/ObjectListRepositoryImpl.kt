@@ -14,9 +14,9 @@ object ObjectListRepositoryImpl : ObjectListRepository {
 
     private var autoIncrementId = 0
     init {
-        for (i in 0 until 1000) {
-            val item = ObjectItem("Name = Object-$i", date= Date(), Random.nextBoolean(), false, i )
-                addObjectItem(item)
+        for (i in 0 until 3) {
+            val item = ObjectItem("Name = Object-$i", date= Date(), Random.nextBoolean(), false)
+            addObjectItem(item)
         }
     }
 

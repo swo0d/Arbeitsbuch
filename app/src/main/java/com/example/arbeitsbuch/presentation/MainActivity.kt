@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         objectListAdapter.onObjectItemClickListener = {
-            val intent = ObjectItemActivity.newIntentEditObject(this)
+            val intent = ObjectItemActivity.newIntentEditObject(this, it.id)
             startActivity(intent)
             Log.d("MainActivity", it.toString())
         }

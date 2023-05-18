@@ -11,7 +11,9 @@
     <string name="object_report_text">Report text</string>
     <string name="object_report_call">Report_call</string>
     <string name="button_object_date">object_date</string>
+    <string name="button_object_save">Save</string>
     <string name="button_object_time">object_time_button</string>
     <string name="add_new_object">Add new object</string>
+    <string name="error_input_name">"Error input name "</string>
 
 </resources>
