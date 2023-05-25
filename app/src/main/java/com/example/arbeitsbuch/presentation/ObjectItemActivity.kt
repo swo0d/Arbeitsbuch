@@ -26,19 +26,19 @@ class ObjectItemActivity : AppCompatActivity() {
 //    private lateinit var etObjectName: EditText
 //    private lateinit var buttonSave: Button
 //
-//    private var screenMode = MODE_UNKNOWN
-//    private var objectItemId = ObjectItem.UNDEFINED_ID
+    private var screenMode = MODE_UNKNOWN
+    private var objectItemId = ObjectItem.UNDEFINED_ID
 //
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_object)
 //        //setContentView(R.layout.item_object)
 //
-//        parseIntent()
+      parseIntent()
 //        viewModel = ViewModelProvider(this)[ObjectItemViewModel::class.java]
 //        initViews()
 //        addTextChangeListener()
-//        changeRightMode()
+       changeRightMode()
 //        observeViewModel()
     }
 //
@@ -56,12 +56,16 @@ class ObjectItemActivity : AppCompatActivity() {
 //        }
 //    }
 //
-//    private fun changeRightMode() {
-//        when (screenMode) {
-//            MODE_EDIT -> launchEditMode()
-//            MODE_ADD -> launchAddMode()
-//        }
-//    }
+    private fun changeRightMode() {
+       val fragment = when (screenMode) {
+            MODE_EDIT -> ObjectItemFragment.newInstanceEditItem(objectItemId)
+            MODE_ADD -> ObjectItemFragment.newInstanceAddItem()
+           else ->  throw java.lang.RuntimeException("Unknown screen mode $screenMode")
+        }
+        supportFragmentManager.beginTransaction()
+            .add(R.id.object_item_container, fragment)
+            .commit()
+    }
 //
 //    private fun addTextChangeListener() {
 //        etObjectName.addTextChangedListener(object : TextWatcher {
@@ -102,22 +106,22 @@ class ObjectItemActivity : AppCompatActivity() {
 //        buttonSave.visibility = View.VISIBLE
 //    }
 //
-//    private fun parseIntent() {
-//        if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
-//            throw RuntimeException("Param screen mode is absent")
-//        }
-//        val mode = intent.getStringExtra(EXTRA_SCREEN_MODE)
-//        if (mode != MODE_EDIT && mode != MODE_ADD) {
-//            throw java.lang.RuntimeException("Unknown screen mode $mode")
-//        }
-//        screenMode = mode
-//        if (screenMode == MODE_EDIT) {
-//            if (!intent.hasExtra(EXTRA_OBJECT_ITEM_ID)) {
-//                throw RuntimeException("Param object item id in absent")
-//            }
-//            objectItemId = intent.getIntExtra(EXTRA_OBJECT_ITEM_ID, ObjectItem.UNDEFINED_ID)
-//        }
-//    }
+    private fun parseIntent() {
+        if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
+            throw RuntimeException("Param screen mode is absent")
+        }
+        val mode = intent.getStringExtra(EXTRA_SCREEN_MODE)
+        if (mode != MODE_EDIT && mode != MODE_ADD) {
+            throw java.lang.RuntimeException("Unknown screen mode $mode")
+        }
+        screenMode = mode
+        if (screenMode == MODE_EDIT) {
+            if (!intent.hasExtra(EXTRA_OBJECT_ITEM_ID)) {
+                throw RuntimeException("Param object item id in absent")
+            }
+            objectItemId = intent.getIntExtra(EXTRA_OBJECT_ITEM_ID, ObjectItem.UNDEFINED_ID)
+        }
+    }
 
 //
 //    private fun initViews() {
