@@ -1,22 +1,26 @@
 package com.example.arbeitsbuch.presentation
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arbeitsbuch.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ObjectItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var objectListAdapter: ObjectListAdapter
+    private var objectItemContainer: FragmentContainerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        objectItemContainer = findViewById(R.id.object_item_container)
         setupRecyclerView()
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.objectList.observe(this) {
@@ -24,12 +28,32 @@ class MainActivity : AppCompatActivity() {
         }
         val buttonAddObject = findViewById<FloatingActionButton>(R.id.button_add_new_object)
         buttonAddObject.setOnClickListener {
-            val intent = ObjectItemActivity.newIntentAddObject(this)
-            startActivity(intent)
-        }
+            if(isOnePaneMode()) {
+                val intent = ObjectItemActivity.newIntentAddObject(this)
+                startActivity(intent)
+            } else {
+                launchFragment(ObjectItemFragment.newInstanceAddItem())
+            }
 
+        }
     }
 
+    override fun onEditingFinished() {
+        Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
+    }
+
+    private fun isOnePaneMode(): Boolean {
+        return objectItemContainer == null
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.object_item_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
     private fun setupRecyclerView() {
         val rvObjectList = findViewById<RecyclerView>(R.id.rv_object_list)
@@ -75,9 +99,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         objectListAdapter.onObjectItemClickListener = {
-            val intent = ObjectItemActivity.newIntentEditObject(this, it.id)
-            startActivity(intent)
-            Log.d("MainActivity", it.toString())
+            if(isOnePaneMode()) {
+                val intent = ObjectItemActivity.newIntentEditObject(this, it.id)
+                startActivity(intent)
+            }else {
+                launchFragment(ObjectItemFragment.newInstanceEditItem(it.id))
+            }
         }
     }
 

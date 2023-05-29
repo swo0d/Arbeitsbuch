@@ -18,7 +18,7 @@ import com.example.arbeitsbuch.R
 import com.example.arbeitsbuch.domain.ObjectItem
 import com.google.android.material.textfield.TextInputLayout
 
-class ObjectItemActivity : AppCompatActivity() {
+class ObjectItemActivity : AppCompatActivity(), ObjectItemFragment.OnEditingFinishedListener {
 
     //    private lateinit var viewModel: ObjectItemViewModel
 //
@@ -30,32 +30,16 @@ class ObjectItemActivity : AppCompatActivity() {
     private var objectItemId = ObjectItem.UNDEFINED_ID
 //
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.item_object)
-//        //setContentView(R.layout.item_object)
-//
-      parseIntent()
-//        viewModel = ViewModelProvider(this)[ObjectItemViewModel::class.java]
-//        initViews()
-//        addTextChangeListener()
-       changeRightMode()
-//        observeViewModel()
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.item_object)
+    parseIntent()
+    if (savedInstanceState == null) {
+        changeRightMode()
     }
-//
-//    private fun observeViewModel() {
-//        viewModel.errorInputName.observe(this) {
-//            val message = if (it) {
-//                getString(R.string.error_input_name)
-//            } else {
-//                null
-//            }
-//            etObjectName.error = message
-//        }
-//        viewModel.shouldCloseScreen.observe(this) {
-//            finish()
-//        }
-//    }
-//
+}
+    override fun onEditingFinished() {
+        finish()
+    }
     private fun changeRightMode() {
        val fragment = when (screenMode) {
             MODE_EDIT -> ObjectItemFragment.newInstanceEditItem(objectItemId)
@@ -66,46 +50,7 @@ class ObjectItemActivity : AppCompatActivity() {
             .add(R.id.object_item_container, fragment)
             .commit()
     }
-//
-//    private fun addTextChangeListener() {
-//        etObjectName.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//            }
-//
-//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                viewModel.resetErrorInputName()
-//            }
-//
-//            override fun afterTextChanged(p0: Editable?) {
-//
-//            }
-//        })
-//    }
-//
-//    private fun launchEditMode() {
-//        bSaveVisibility()
-//        viewModel.getObjectItem(objectItemId)
-//        viewModel.objectItem.observe(this) {
-//            etObjectName.setText(it.name)
-//        }
-//        buttonSave.setOnClickListener {
-//            viewModel.editObjectItem(etObjectName.text?.toString())
-//        }
-//    }
-//
-//    private fun launchAddMode() {
-//        bSaveVisibility()
-//        buttonSave.setOnClickListener {
-//            viewModel.addObjectItem(etObjectName.text?.toString())
-//
-//        }
-//    }
-//
-//    private fun bSaveVisibility() {
-//        buttonSave.visibility = View.VISIBLE
-//    }
-//
+
     private fun parseIntent() {
         if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
             throw RuntimeException("Param screen mode is absent")
@@ -122,14 +67,6 @@ class ObjectItemActivity : AppCompatActivity() {
             objectItemId = intent.getIntExtra(EXTRA_OBJECT_ITEM_ID, ObjectItem.UNDEFINED_ID)
         }
     }
-
-//
-//    private fun initViews() {
-//        tvObjectName = findViewById(R.id.tv_object_name)
-//        etObjectName = findViewById(R.id.et_object_name)
-//        buttonSave = findViewById(R.id.b_save)
-//
-//    }
 
         companion object {
 

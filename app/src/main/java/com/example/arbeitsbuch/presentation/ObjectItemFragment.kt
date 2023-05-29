@@ -19,7 +19,9 @@ import com.example.arbeitsbuch.domain.ObjectItem
 
 class ObjectItemFragment: Fragment() {
 
+
     private lateinit var viewModel: ObjectItemViewModel
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private lateinit var tvObjectName: TextView
     private lateinit var etObjectName: EditText
@@ -27,6 +29,15 @@ class ObjectItemFragment: Fragment() {
 
     private var screenMode: String = MODE_UNKNOWN
     private var objectItemId: Int = ObjectItem.UNDEFINED_ID
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnEditingFinishedListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +70,9 @@ class ObjectItemFragment: Fragment() {
             }
             etObjectName.error = message
         }
-        viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressedDispatcher?.onBackPressed()
+            viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
+                // activity?.onBackPressedDispatcher?.onBackPressed()
+            onEditingFinishedListener.onEditingFinished()
         }
     }
 
@@ -134,6 +146,10 @@ class ObjectItemFragment: Fragment() {
         etObjectName = view.findViewById(R.id.et_object_name)
         buttonSave = view.findViewById(R.id.b_save)
 
+    }
+
+    interface  OnEditingFinishedListener {
+        fun onEditingFinished()
     }
 
     companion object {
